@@ -28,6 +28,7 @@ export async function POST(request: NextRequest) {
             content
         }
     })
+    return NextResponse.json(NewNote);
 
     } catch (error) {
         if (error instanceof Error) {

@@ -6,6 +6,7 @@ import NoteForm from "../components/NoteForm";
 export default function Home() {
   const [notes, setNotes] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  
 
   const loadNotes = async () => {
     try {
@@ -17,6 +18,8 @@ export default function Home() {
       console.error("Error al cargar las notas:", error);
     }
   };
+
+
 
   useEffect(() => {
     loadNotes();
@@ -64,6 +67,7 @@ export default function Home() {
             >
               <h2>{note.title}</h2>
               <p>{note.content}</p>
+              <p>{note.createdAt}</p>
               <button onClick={() => handleDelete(note.id)}>Eliminar</button>
             </div>
           ))

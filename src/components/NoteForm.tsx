@@ -13,6 +13,9 @@ export default function NoteForm({ onNoteCreated }: NoteFormProps) {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    const createdAt = new Date();
+    const updatedAt = new Date();
+
     if (!title.trim() || !content.trim()) {
       alert("Por favor completa todos los campos.");
       return;
@@ -26,7 +29,7 @@ export default function NoteForm({ onNoteCreated }: NoteFormProps) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ title, content }),
+        body: JSON.stringify({ title, content, createdAt, updatedAt }),
       });
 
       if (!res.ok) {
@@ -50,6 +53,7 @@ export default function NoteForm({ onNoteCreated }: NoteFormProps) {
       setLoading(false);
     }
   };
+  
 
   return (
     <form className="max-w-7xl space-y-4" onSubmit={handleSubmit}>
