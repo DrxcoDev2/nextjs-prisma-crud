@@ -1,79 +1,111 @@
-import {NextRequest, NextResponse} from "next/server";
+import { NextResponse } from "next/server";
 import { Prisma } from "@prisma/client";
-import {prisma} from "@/lib/prisma";
+import { prisma } from "@/lib/prisma";
 
 interface Params {
-    id: string;
+  params: { id: string };
 }
 
-export async function GET(request: NextRequest, {params}: {params: Params}) {
+export async function GET(request: Request, { params }: Params) {
+  console.log(params.id);
+  try {
+    const note = await prisma.note.findFirst({
+      where: {
+        id: Number(params.id),
+      },
+    });
 
-    try {
-    const note = await prisma.note.findUnique({
-        where: {
-            id: Number(params.id)
-        }
-    })
-    if (!note) {
-        return NextResponse.json({error: "Note not found"}, {status: 404}); //Response error 
-    }
+    if (!note)
+      return NextResponse.json({ message: "Note not found" }, { status: 404 });
 
-    return NextResponse.json({message: "getting single note", note});    
-    } catch (error) {
-        if (error instanceof Error) {
-            return NextResponse.json({error: error.message}, {status: 500}); //Response error 
-                                                                             //Type 500 = Internal Server Error 
+    return NextResponse.json(note);
+  } catch (error) {
+    if (error instanceof Error) {
+      return NextResponse.json(
+        {
+          message: error.message,
+        },
+        {
+          status: 500,
         }
+      );
     }
+  }
 }
 
-export async function DELETE(request: NextRequest, {params}: {params: Params}) {
-    try {
-    const note = await prisma.note.delete({
-        where: {
-            id: Number(params.id)
+export async function DELETE(request: Request, { params }: Params) {
+  try {
+    const deletedNote = await prisma.note.delete({
+      where: {
+        id: Number(params.id),
+      },
+    });
+    if (!deletedNote)
+      return NextResponse.json({ message: "Note not found" }, { status: 404 });
+
+    return NextResponse.json(deletedNote);
+  } catch (error) {
+    console.log(error);
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error.code === "P2025") {
+        return NextResponse.json(
+          {
+            message: "Note not found",
+          },
+          {
+            status: 404,
+          }
+        );
+      }
+
+      return NextResponse.json(
+        {
+          message: error.message,
+        },
+        {
+          status: 500,
         }
-    })
-    if (!note) {
-        return NextResponse.json({error: "Note not found"}, {status: 404}); //Response error 
+      );
     }
-
-    return NextResponse.json({message: "deleting note"});
-    } catch (error) {
-        if (error instanceof Prisma.PrismaClientKnownRequestError) {
-
-            if (error.code === "P2025") {
-                return NextResponse.json({error: "Note not found"}, {status: 404}); //Response error 
-            }
-
-            return NextResponse.json({error: error.message}, {status: 500}); //Response error 
-                                                                             //Type 500 = Internal Server Error 
-        }
-    }
+  }
 }
 
-export async function PUT(request: NextRequest, {params}: {params: Params}) {
-    try {
+export async function PUT(request: Request, { params }: Params) {
+  try {
+    const { title, content } = await request.json();
 
-        const {title, content} = await request.json();
+    const updatedNote = await prisma.note.update({
+      where: {
+        id: Number(params.id),
+      },
+      data: {
+        title,
+        content,
+      },
+    });
 
-        const note = await prisma.note.update({
-            where: {
-                id: Number(params.id)
-            },
-            data: {
-                title,
-                content
-            }
-        })
-        if (!note) {
-            return NextResponse.json({error: "Note not found"}, {status: 404}); //Response error 
+    return NextResponse.json(updatedNote);
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error.code === "P2025") {
+        return NextResponse.json(
+          {
+            message: "Note not found",
+          },
+          {
+            status: 404,
+          }
+        );
+      }
+
+      return NextResponse.json(
+        {
+          message: error.message,
+        },
+        {
+          status: 500,
         }
-        return NextResponse.json({message: "updating note", note});
-    } catch (error) {
-        if (error instanceof Error) {
-
-            return NextResponse.json({error: error.message}, {status: 500}); //Response error 
-        }
+      );
     }
+  }
 }
