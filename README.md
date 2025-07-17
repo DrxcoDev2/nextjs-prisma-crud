@@ -1,24 +1,47 @@
-# 🚀 Next.js + Prisma CRUD Application
+# Next.js & Prisma Enterprise-Grade Application
 
 <div align="center">
+  <h1>Enterprise-Grade Full-Stack Solution</h1>
   <p align="center">
     <a href="https://nextjs.org">
-      <img src="https://assets.vercel.com/image/upload/v1662131399/nextjs/Icon_light_background.png" height="64" alt="Next.js" />
+      <img src="https://assets.vercel.com/image/upload/v1662131399/nextjs/Icon_light_background.png" height="60" alt="Next.js" />
     </a>
-    <span style="font-size: 2em; margin: 0 10px;">+</span>
+    <span style="font-size: 2em; margin: 0 10px; color: #666; vertical-align: middle;">+</span>
     <a href="https://www.prisma.io">
-      <img src="https://raw.githubusercontent.com/prisma/presskit/main/Assets/Prisma-DarkSymbol.png" height="64" alt="Prisma" />
+      <img src="https://raw.githubusercontent.com/prisma/presskit/main/Assets/Prisma-DarkSymbol.png" height="60" alt="Prisma" />
     </a>
-  </p>
-  <h1>Modern Full-Stack CRUD Application</h1>
-  <p>
-    A production-ready CRUD application built with Next.js 14, Prisma, TypeScript, and Tailwind CSS
   </p>
   
-  [![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
-  [![Prisma](https://img.shields.io/badge/Prisma-2D3748?style=for-the-badge&logo=prisma&logoColor=white)](https://www.prisma.io/)
-  [![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-  [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+  <p style="font-size: 1.2em; color: #555; max-width: 800px; margin: 0 auto 2em;">
+    A robust, scalable, and maintainable full-stack application built with modern web technologies
+  </p>
+  
+  <div style="margin: 1.5em 0;">
+    <a href="https://nextjs.org/" target="_blank" style="margin: 0 5px;">
+      <img src="https://img.shields.io/badge/Next.js-13.4+-000000?style=flat-square&logo=nextdotjs&logoColor=white" alt="Next.js">
+    </a>
+    <a href="https://www.prisma.io/" target="_blank" style="margin: 0 5px;">
+      <img src="https://img.shields.io/badge/Prisma-5.0+-2D3748?style=flat-square&logo=prisma&logoColor=white" alt="Prisma">
+    </a>
+    <a href="https://www.typescriptlang.org/" target="_blank" style="margin: 0 5px;">
+      <img src="https://img.shields.io/badge/TypeScript-5.0+-3178C6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript">
+    </a>
+    <a href="https://tailwindcss.com/" target="_blank" style="margin: 0 5px;">
+      <img src="https://img.shields.io/badge/Tailwind_CSS-3.3+-38B2AC?style=flat-square&logo=tailwindcss&logoColor=white" alt="Tailwind CSS">
+    </a>
+    <a href="https://nodejs.org/" target="_blank" style="margin: 0 5px;">
+      <img src="https://img.shields.io/badge/Node.js-18+-339933?style=flat-square&logo=nodedotjs&logoColor=white" alt="Node.js">
+    </a>
+  </div>
+  
+  <div style="margin: 1.5em 0;">
+    <a href="#getting-started" style="margin: 0 10px; padding: 10px 20px; background-color: #2563eb; color: white; border-radius: 5px; text-decoration: none; font-weight: 500;">
+      Get Started
+    </a>
+    <a href="#documentation" style="margin: 0 10px; padding: 10px 20px; border: 1px solid #2563eb; color: #2563eb; border-radius: 5px; text-decoration: none; font-weight: 500;">
+      Documentation
+    </a>
+  </div>
 </div>
 
 ## 📋 Table of Contents
