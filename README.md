@@ -44,159 +44,223 @@
   </div>
 </div>
 
-## 📋 Table of Contents
+## Table of Contents
 
-- [✨ Features](#-features)
-- [🚀 Getting Started](#-getting-started)
+- [Key Features](#key-features)
+- [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
-  - [Environment Variables](#-environment-variables)
-  - [Database Setup](#-database-setup)
-  - [Running the App](#-running-the-app)
-- [🧩 Project Structure](#-project-structure)
-- [🛠 Tech Stack](#-tech-stack)
-- [🔧 Development](#-development)
-  - [Available Scripts](#available-scripts)
-  - [Code Formatting](#code-formatting)
-  - [Linting](#linting)
-- [🧪 Testing](#-testing)
-- [🌐 API Endpoints](#-api-endpoints)
-- [📦 Deployment](#-deployment)
-- [🤝 Contributing](#-contributing)
-- [📄 License](#-license)
+  - [Environment Configuration](#environment-configuration)
+  - [Database Setup](#database-setup)
+- [Project Structure](#project-structure)
+- [Technology Stack](#technology-stack)
+- [Development Workflow](#development-workflow)
+- [Testing](#testing)
+- [API Documentation](#api-documentation)
+- [Deployment](#deployment)
+- [Contributing](#contributing)
+- [License](#license)
 
-## ✨ Features
+## Key Features
 
-- 🔍 Full CRUD operations
-- ⚡ Server-side rendering (SSR) and Static Site Generation (SSG)
-- 🛡️ Type-safe API routes with TypeScript
-- 🎨 Modern UI with Tailwind CSS
-- 📱 Fully responsive design
-- 🔄 Real-time data fetching with SWR
-- 🔒 Authentication-ready (JWT)
-- 🧪 Comprehensive test coverage
-- 🐳 Docker support
-- 🔄 CI/CD ready
+### Core Functionality
+- **Comprehensive CRUD Operations** - Full-featured Create, Read, Update, and Delete operations with proper validation
+- **Type-Safe Development** - End-to-end type safety with TypeScript integration
+- **Modern UI/UX** - Clean, responsive interface built with Tailwind CSS
+- **Authentication System** - JWT-based authentication with role-based access control
 
-## 🚀 Getting Started
+### Performance & Scalability
+- **Optimized Rendering** - Hybrid rendering with Server-Side Rendering (SSR) and Static Site Generation (SSG)
+- **Efficient Data Fetching** - Real-time data synchronization using SWR
+- **Database Optimization** - Prisma ORM with connection pooling and query optimization
+
+### Developer Experience
+- **Comprehensive Testing** - Unit, integration, and end-to-end testing with Jest and React Testing Library
+- **Containerization** - Docker support for consistent development and deployment
+- **CI/CD Ready** - Pre-configured GitHub Actions workflows for automated testing and deployment
+- **Code Quality** - Enforced code style with ESLint and Prettier
+
+### Security
+- **Input Validation** - Robust validation using Zod schemas
+- **Secure Authentication** - JWT with secure storage and refresh token rotation
+- **API Protection** - Rate limiting and CORS policies
+
+## Getting Started
 
 ### Prerequisites
 
-- Node.js 18.0.0 or later
-- npm or yarn
-- PostgreSQL (or your preferred database)
-- Git
+Before you begin, ensure you have the following installed:
+
+- **Node.js** 18.0.0 or later
+- **npm** 9.x or later, or **yarn** 1.22.x or later
+- **PostgreSQL** 14+ (or your preferred database)
+- **Git** 2.25.0 or later
 
 ### Installation
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/nextjs-prisma-crud.git
-   cd nextjs-prisma-crud
+   git clone https://github.com/your-organization/nextjs-prisma-enterprise.git
+   cd nextjs-prisma-enterprise
    ```
 
 2. **Install dependencies**
    ```bash
+   # Using npm
    npm install
-   # or
+   
+   # Or using Yarn
    yarn install
    ```
 
-3. **Set up environment variables**
+3. **Set up environment configuration**
    ```bash
    cp .env.example .env.local
    ```
-   Update the `.env.local` file with your configuration.
 
-### 🔧 Environment Variables
+### Environment Configuration
 
-Create a `.env.local` file in the root directory and add the following variables:
+Configure your environment by updating the `.env.local` file with the following variables:
 
 ```env
+# Application
+NODE_ENV=development
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+
 # Database
 DATABASE_URL="postgresql://user:password@localhost:5432/yourdb?schema=public"
 
-# Next.js
-NEXT_PUBLIC_APP_URL=http://localhost:3000
-NODE_ENV=development
-
-# Authentication (if applicable)
-NEXTAUTH_SECRET=your-secret-here
+# Authentication
+NEXTAUTH_SECRET=generate-a-secure-secret-here
 NEXTAUTH_URL=http://localhost:3000
+
+# API Configuration
+API_RATE_LIMIT=100
+API_RATE_WINDOW=15m
+
+# Logging
+LOG_LEVEL=debug
+ENABLE_REQUEST_LOGGING=true
 ```
 
-### 🗄️ Database Setup
+> **Note**: For production deployments, ensure all sensitive values are properly secured and not committed to version control.
 
-1. **Run database migrations**
+### Database Setup
+
+#### Initial Setup
+
+1. **Apply Database Migrations**
    ```bash
+   # Create and apply initial migration
    npx prisma migrate dev --name init
+   
+   # Apply pending migrations in production
+   npx prisma migrate deploy
    ```
 
 2. **Generate Prisma Client**
    ```bash
+   # Generate Prisma Client
    npx prisma generate
+   
+   # Regenerate client after schema changes
+   npx prisma generate --watch
    ```
 
-3. **Seed the database (optional)**
+3. **Database Seeding (Optional)**
    ```bash
+   # Seed the database with initial data
    npx prisma db seed
    ```
 
-### 🚀 Running the App
+#### Development Workflow
 
-1. **Development mode**
-   ```bash
-   npm run dev
-   # or
-   yarn dev
-   ```
-   Open [http://localhost:3000](http://localhost:3000) in your browser.
+```bash
+# Start development server with Prisma Studio
+npm run dev:with-studio
 
-2. **Production build**
-   ```bash
-   npm run build
-   npm start
-   # or
-   yarn build
-   yarn start
-   ```
+# Open Prisma Studio (separate terminal)
+npx prisma studio
+```
 
-## 🧩 Project Structure
+## Project Structure
 
 ```
-nextjs-prisma-crud/
+nextjs-enterprise/
 ├── .github/                 # GitHub workflows and templates
-├── app/                     # App Router
-│   ├── api/                 # API routes
-│   ├── components/          # Reusable components
-│   ├── lib/                 # Utility functions and configurations
-│   ├── styles/              # Global styles
-│   └── ...
-├── prisma/                  # Prisma schema and migrations
-├── public/                  # Static files
-├── tests/                   # Test files
-├── .env.example             # Example environment variables
+│   ├── workflows/           # CI/CD pipelines
+│   └── ISSUE_TEMPLATE/      # Issue templates
+│
+├── app/                     # Next.js 13+ App Router
+│   ├── (auth)/              # Authentication routes
+│   ├── api/                 # API route handlers
+│   │   ├── v1/              # Versioned API endpoints
+│   │   └── middleware.ts    # API middleware
+│   │
+│   ├── components/          # Reusable UI components
+│   │   ├── ui/              # Base UI components
+│   │   ├── forms/           # Form components
+│   │   └── layout/          # Layout components
+│   │
+│   ├── config/              # Application configuration
+│   ├── contexts/            # React contexts
+│   ├── hooks/               # Custom React hooks
+│   ├── lib/                 # Utility functions
+│   ├── styles/              # Global styles and themes
+│   └── types/               # TypeScript type definitions
+│
+├── prisma/                  # Database schema and migrations
+│   ├── migrations/          # Migration files
+│   ├── schema.prisma        # Prisma schema
+│   └── seed.ts              # Database seed script
+│
+├── public/                  # Static assets
+│   ├── images/              # Image assets
+│   └── favicon.ico          # Favicon
+│
+├── tests/                   # Test suites
+│   ├── e2e/                 # End-to-end tests
+│   ├── integration/         # Integration tests
+│   └── unit/                # Unit tests
+│
+├── .env.example             # Environment variables template
 ├── .eslintrc.json           # ESLint configuration
-├── .gitignore
+├── .prettierrc              # Prettier configuration
 ├── next.config.js           # Next.js configuration
-├── package.json
-├── README.md                # This file
+├── package.json             # Project dependencies and scripts
+├── README.md                # Project documentation
 └── tsconfig.json            # TypeScript configuration
 ```
 
-## 🛠 Tech Stack
+## Technology Stack
 
-- **Frontend Framework**: [Next.js 14](https://nextjs.org/)
-- **Database ORM**: [Prisma](https://www.prisma.io/)
-- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
-- **Type Safety**: [TypeScript](https://www.typescriptlang.org/)
-- **State Management**: [Zustand](https://github.com/pmndrs/zustand) / [Jotai](https://jotai.org/)
-- **Form Handling**: [React Hook Form](https://react-hook-form.com/)
-- **Validation**: [Zod](https://zod.dev/)
-- **Testing**: [Jest](https://jestjs.io/) + [React Testing Library](https://testing-library.com/)
-- **Linting**: [ESLint](https://eslint.org/)
-- **Code Formatting**: [Prettier](https://prettier.io/)
-- **Containerization**: [Docker](https://www.docker.com/)
+### Core Technologies
+- **Frontend Framework**: [Next.js 14](https://nextjs.org/) - React framework for server-rendered applications
+- **Database ORM**: [Prisma 5.0+](https://www.prisma.io/) - Next-generation Node.js and TypeScript ORM
+- **Styling**: [Tailwind CSS 3.3+](https://tailwindcss.com/) - Utility-first CSS framework
+- **Type Safety**: [TypeScript 5.0+](https://www.typescriptlang.org/) - Type-safe JavaScript
+
+### State Management & Data Fetching
+- **State Management**: [Zustand](https://github.com/pmndrs/zustand) - Minimalist state management
+- **Data Fetching**: [SWR](https://swr.vercel.app/) - React Hooks for data fetching
+- **Form Handling**: [React Hook Form](https://react-hook-form.com/) - Performant form validation
+- **Validation**: [Zod](https://zod.dev/) - TypeScript-first schema validation
+
+### Development Tools
+- **Testing**: 
+  - [Jest](https://jestjs.io/) - Test runner
+  - [React Testing Library](https://testing-library.com/) - React component testing
+  - [MSW](https://mswjs.io/) - API mocking
+- **Code Quality**: 
+  - [ESLint](https://eslint.org/) - JavaScript/TypeScript linting
+  - [Prettier](https://prettier.io/) - Code formatting
+  - [Husky](https://typicode.github.io/husky/) - Git hooks
+  - [lint-staged](https://github.com/okonet/lint-staged) - Run linters on git staged files
+
+### Infrastructure
+- **Containerization**: [Docker](https://www.docker.com/) - Container platform
+- **CI/CD**: [GitHub Actions](https://github.com/features/actions) - Automated workflows
+- **Hosting**: [Vercel](https://vercel.com/) - Cloud platform for static sites and Serverless Functions
 
 ## 🔧 Development
 
@@ -257,7 +321,101 @@ npm run test:coverage
 - `PUT /api/items/:id` - Update an item
 - `DELETE /api/items/:id` - Delete an item
 
-## 📦 Deployment
+## Deployment
+
+### Docker Support
+
+This project includes Docker configuration for both development and production environments.
+
+#### Prerequisites
+
+- [Docker](https://www.docker.com/get-started)
+- [Docker Compose](https://docs.docker.com/compose/install/)
+
+#### Development with Docker
+
+1. **Start the development environment**
+   ```bash
+   docker-compose up -d
+   ```
+   This will start:
+   - Next.js development server on port 3000
+   - PostgreSQL database on port 5432
+   - Prisma Studio on port 5555
+
+2. **Run database migrations**
+   ```bash
+   docker-compose exec app npx prisma migrate dev --name init
+   ```
+
+3. **Access the application**
+   - Web application: http://localhost:3000
+   - Prisma Studio (database GUI): http://localhost:5555
+
+#### Production Build with Docker
+
+1. **Build the production image**
+   ```bash
+   docker-compose -f docker-compose.prod.yml build
+   ```
+
+2. **Start the production stack**
+   ```bash
+   docker-compose -f docker-compose.prod.yml up -d
+   ```
+
+#### Useful Commands
+
+- View logs:
+  ```bash
+  docker-compose logs -f app
+  ```
+
+- Run database migrations in production:
+  ```bash
+  docker-compose exec app npx prisma migrate deploy
+  ```
+
+- Access database shell:
+  ```bash
+  docker-compose exec db psql -U postgres
+  ```
+
+- Stop all containers:
+  ```bash
+  docker-compose down
+  ```
+
+- Stop and remove all containers, networks, and volumes:
+  ```bash
+  docker-compose down -v
+  ```
+
+#### Environment Variables
+
+For production, create a `.env` file with your production database credentials and other environment variables. The Docker Compose file uses the following defaults:
+
+```env
+# Database
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+POSTGRES_DB=nextjs_prisma
+DATABASE_URL=postgresql://postgres:postgres@db:5432/nextjs_prisma?schema=public
+
+# Next.js
+NODE_ENV=production
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+```
+
+#### Multi-Stage Build
+
+The Dockerfile uses multi-stage builds to optimize the final image size:
+1. `base` - Base Node.js image
+2. `deps` - Installs dependencies
+3. `builder` - Builds the application
+4. `runner` - Production-ready image with minimal dependencies
+
+## Deployment
 
 ### Vercel
 
@@ -297,5 +455,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 <div align="center">
-  Made with ❤️ by Your Name
+  Made with ❤️ by Drxco
 </div>
