@@ -323,6 +323,126 @@ npm run test:coverage
 
 ## Deployment
 
+### Kubernetes Deployment
+
+This project includes Kubernetes manifests for deploying the application in a production environment.
+
+#### Prerequisites
+
+- [kubectl](https://kubernetes.io/docs/tasks/tools/) installed and configured
+- [Minikube](https://minikube.sigs.k8s.io/docs/start/) (for local development) or access to a Kubernetes cluster
+- [Docker](https://www.docker.com/) for building container images
+
+#### Directory Structure
+
+```
+k8s/
+├── namespace.yaml           # Kubernetes namespace
+├── postgres-configmap.yaml  # PostgreSQL configuration
+├── postgres-secret.yaml     # PostgreSQL secrets
+├── postgres-deployment.yaml # PostgreSQL deployment
+├── postgres-service.yaml    # PostgreSQL service
+├── app-configmap.yaml       # Application configuration
+├── app-secret.yaml          # Application secrets
+├── app-deployment.yaml      # Application deployment
+├── app-service.yaml         # Application service
+├── ingress.yaml             # Ingress configuration (optional)
+└── apply.sh                 # Deployment script
+```
+
+#### Local Development with Minikube
+
+1. **Start Minikube**
+   ```bash
+   minikube start
+   
+   # Enable ingress addon if you want to use Ingress
+   minikube addons enable ingress
+   ```
+
+2. **Build and load Docker image**
+   ```bash
+   # Build the Docker image
+   docker build -t nextjs-prisma-app .
+   
+   # Load the image into Minikube
+   minikube image load nextjs-prisma-app
+   ```
+
+3. **Deploy to Kubernetes**
+   ```bash
+   # Make the script executable
+   chmod +x k8s/apply.sh
+   
+   # Run the deployment script
+   ./k8s/apply.sh
+   ```
+
+4. **Access the application**
+   ```bash
+   # For Minikube, use the following to get the URL
+   minikube service nextjs-app -n nextjs-prisma --url
+   ```
+
+#### Production Deployment
+
+1. **Build and push your Docker image**
+   ```bash
+   docker build -t your-username/nextjs-prisma-app:latest .
+   docker push your-username/nextjs-prisma-app:latest
+   ```
+
+2. **Update the image in app-deployment.yaml**
+   ```yaml
+   spec:
+     containers:
+     - name: nextjs-app
+       image: your-username/nextjs-prisma-app:latest
+   ```
+
+3. **Apply the Kubernetes configurations**
+   ```bash
+   kubectl apply -f k8s/
+   ```
+
+4. **Set up Ingress (if needed)**
+   - Update the `ingress.yaml` with your domain
+   - Ensure you have an Ingress controller installed (e.g., nginx-ingress)
+   - Apply the Ingress configuration:
+     ```bash
+     kubectl apply -f k8s/ingress.yaml
+     ```
+
+#### Database Migrations
+
+To run database migrations in the Kubernetes cluster:
+
+```bash
+# Run migrations
+kubectl run -n nextjs-prisma migrations --rm -it --restart=Never \
+  --image=your-username/nextjs-prisma-app:latest -- \
+  npx prisma migrate deploy
+
+# Or run a shell in the pod for manual operations
+kubectl exec -n nextjs-prisma -it $(kubectl get pods -n nextjs-prisma -l app=nextjs-app -o name | head -n 1) -- /bin/sh
+```
+
+#### Monitoring and Maintenance
+
+```bash
+# View all resources in the namespace
+kubectl get all -n nextjs-prisma
+
+# View logs
+kubectl logs -n nextjs-prisma -l app=nextjs-app --tail=50
+
+# Port forward for local access
+kubectl port-forward -n nextjs-prisma svc/nextjs-app 3000:3000
+
+# Access Prisma Studio
+kubectl port-forward -n nextjs-prisma svc/postgres 5432:5432
+```
+
 ### Docker Support
 
 This project includes Docker configuration for both development and production environments.

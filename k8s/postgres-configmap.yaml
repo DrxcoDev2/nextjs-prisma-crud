@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-config
+  namespace: nextjs-prisma
+data:
+  POSTGRES_DB: nextjs_prisma
+  POSTGRES_USER: postgres
